@@ -1,4 +1,7 @@
 Add Error checking to all OpenAI calls.
+Add " <--" pointers to the Generate when there is now flows/bots
+Add "base_system_prompt" to all the of OpenAI system_prompts.
+Add a options for the startup script run.bat/run.sh/etc.
 
 Update Git
 ===============================

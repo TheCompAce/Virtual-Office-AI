@@ -1,7 +1,7 @@
 @echo off
 if not exist env (
     echo Creating virtual environment...
-    C:\Python310\python -m venv env python==3.10.0
+    python -m venv env
     echo.
 )
 

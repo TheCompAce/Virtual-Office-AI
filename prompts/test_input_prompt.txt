@@ -1,0 +1,7 @@
+Return only a single JSON object in the format of :
+
+{
+    "input": "Input file data goes here as a single string in a JSON firendly format."
+}
+
+Create example file data to return in the "input" key of the response, based on the format described by the "user" prompt.

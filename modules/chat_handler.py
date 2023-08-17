@@ -83,6 +83,33 @@ def send_message(conversation, config, model):  # Add model as a parameter
         print(tokenizer.decode(output[0], skip_special_tokens=True))
 
         return string
+    elif (model["name"] == "stabilityai/stablecode-completion-alpha-3b-4k"):
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained(model["name"])
+        model = AutoModelForCausalLM.from_pretrained(
+            model["name"],
+            trust_remote_code=True,
+            torch_dtype="auto",
+        )
+        model.cuda()
+
+
+        system_prompts = [entry['content'] for entry in conversation if entry['role'] == 'system']
+        user_inputs = [entry['content'] for entry in conversation if entry['role'] == 'user']
+
+        prompt = ""
+        for system_prompt, user_input in zip(system_prompts, user_inputs):
+            prompt += f"### System: {system_prompt}### User: {user_input}\n\n### Assistant:\n"
+
+
+        inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+        tokens = model.generate(
+            **inputs,
+            max_new_tokens=48,
+            temperature=0.2,
+            do_sample=True,
+        )
+        return tokenizer.decode(tokens[0], skip_special_tokens=True)
     else:
         openai_settings = config["openai_settings"]
         options = load_options()  # Load options including the API key

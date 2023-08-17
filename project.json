@@ -60,7 +60,14 @@
         "cost": 0.0,
         "type": "local",
         "notes": "Works, 2 hours per request. Does not make a name or description own it's own for new compaines."
+      },
+      {
+        "name": "stabilityai/stablecode-completion-alpha-3b-4k",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "Code Completion"
       }
+      
     ],
     "temperature": 1,
     "top_p": 1,
@@ -68,11 +75,15 @@
     "streaming": false
   },
   "prompts": {
+    "base_system_prompt": {
+      "file": "prompts/base_system_prompt.txt",
+      "model": "not used, this is attached to all system messages."
+    },
     "company_prompt": {
       "file": "prompts/company_prompt.txt",
       "model": "gpt-3.5-turbo"
     },
-    "start_questions_prompt": {
+    "start_question_prompt": {
       "file": "prompts/start_question_prompt.txt",
       "model": "gpt-3.5-turbo"
     },
@@ -99,6 +110,14 @@
     "code_create_prompt": {
       "file": "prompts/code_create_prompt.txt",
       "model": "gpt-4"
-    }
+    },
+    "test_input_prompt": {
+      "file": "prompts/test_input_prompt.txt",
+      "model": "gpt-3.5-turbo"
+    },
+    "test_output_prompt": {
+      "file": "prompts/test_output_prompt.txt",
+      "model": "gpt-3.5-turbo"
+    }    
   }
 }

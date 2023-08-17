@@ -1,33 +1,10 @@
 import json
 import os
 import shutil
+import subprocess
 from modules.chat_handler import send_message
-from modules.utils import create_folder_structure, folder_to_object
+from modules.utils import create_folder_structure, folder_to_object, list_companies, load_company_profile, choose_company
 
-def list_companies():
-    companies_dir = 'companies'
-    company_files = [f for f in os.listdir(companies_dir) if f.endswith('.json')]
-    companies = []
-    for file in company_files:
-        file_path = os.path.join(companies_dir, file)
-        with open(file_path, 'r') as f:
-            company = json.load(f)
-            companies.append((company['name'], file_path))
-    return companies
-
-
-def choose_company():
-    companies = list_companies()
-    print("\nChoose a Company:")
-    for i, (name, _) in enumerate(companies):
-        print(f"{i + 1}. {name}")
-    choice = int(input("Please choose a company (1-{}): ".format(len(companies)))) - 1
-    return companies[choice][1]
-
-def load_company_profile(file_path):
-    with open(file_path, 'r') as file:
-        company_profile = json.load(file)
-    return company_profile
 
 def edit_bots_menu(company_profile):
     # Check if 'bots' key exists, and if not, initialize it with empty nodes and edges
@@ -45,10 +22,11 @@ def edit_bots_menu(company_profile):
         print("7. Delete Task")
         print("8. Generate Task Source with OpenAI")
         print("9. Bulk Generate Task Source with OpenAI")
-        print("10. Generate Bots with OpenAI")
-        print("11. Edit Bots with OpenAI Question")
-        print("12. Save and Exit")
-        choice = input("Please choose an option (1-12): ")
+        print("10. Test Task Source.")
+        print("11. Generate Bots with OpenAI")
+        print("12. Edit Bots with OpenAI Question")
+        print("13. Save and Exit")
+        choice = input("Please choose an option (1-13): ")
 
         if choice == '1':
             view_current_bots(company_profile)
@@ -69,14 +47,152 @@ def edit_bots_menu(company_profile):
         elif choice == '9':
             print("Bulk Generate Task Source with OpenAI. {Code Here}")
         elif choice == '10':
-            company_profile = generate_bots_with_openai(company_profile)
+            test_task_source(company_profile)
         elif choice == '11':
-            company_profile = question_bots_with_openai(company_profile)
+            company_profile = generate_bots_with_openai(company_profile)
         elif choice == '12':
+            company_profile = question_bots_with_openai(company_profile)
+        elif choice == '13':
             save_and_exit(company_profile["company_bots"], company_profile)
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 9.")
+            print("Invalid choice. Please enter a number between 1 and 13.")
+
+def test_task_source(company_profile):
+    # Check if 'company_bots' key exists in company_profile, and default to an empty list if not
+    company_bots = company_profile.get('company_bots', [])
+
+    if not company_bots:
+        print("\nNo bots found. Please add bots before generating source code.")
+        return
+    
+    if not company_profile['company_bots']['tasks']:
+        print("\nNo tasks found. Please add tasks before generating source code.")
+        return
+
+    print("\nChoose a Task:")
+    for i, task in enumerate(company_profile['company_bots']['tasks']):
+        print(f"{i + 1}. {task['name']}")
+    
+    choice = int(input(f"Please choose a task (1-{len(company_profile['company_bots']['tasks'])}): ")) - 1
+    chosen_task = company_profile['company_bots']['tasks'][choice]
+
+    if chosen_task['code_folder_path'] is None:
+        print("\nSource Code folder path is set to None.")
+
+    # Read the company prompt file from the project.json configuration
+    with open('project.json', 'r') as file:
+        config = json.load(file)
+
+    prompt_file = config["prompts"]["test_input_prompt"]["file"]
+    prompt_model = config["prompts"]["test_input_prompt"]["model"]
+
+    if config["openai_settings"]["base_model"]["use"]:
+        prompt_model = config["openai_settings"]["base_model"]["model"]
+
+    # Look for the "gpt-4" model, or default to the first model if not found
+    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+    # Read the prompt from the specified file
+    with open(prompt_file, 'r') as file:
+        system_prompt = file.read()
+
+    # Path to the selected task's folder
+    task_folder_path = chosen_task['code_folder_path']
+
+    if (task_folder_path is None):
+        print(f"No source for {chosen_task['name']}.")
+        return
+    
+    # Step 1: Reading the task's input prompt from "input_prompt.txt"
+    with open(os.path.join(task_folder_path, 'input_prompt.txt'), 'r') as file:
+        input_prompt = file.read().strip()
+        
+    # Step 2: Calling send_message with the test input prompt to create "input.dat"
+    # (Placeholder for send_message function call - implementation to be added)
+    # Construct the conversation with OpenAI using the system prompt and user input
+    conversation = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": input_prompt}
+    ]
+
+    # Step 2: Send the questions and answers to OpenAI"
+    openai_response = send_message(conversation, config, selected_model)  # Modify this line to match your OpenAI call
+
+    # Writing the generated input file to the task folder
+    try:
+        file_data = json.loads(openai_response)
+        with open(os.path.join(task_folder_path, 'input.dat'), 'w') as file:
+            file.write(file_data["input"])
+
+        print(f"Input Data generated correctly.")
+        try:
+            # Step 3: Running the "run.bat" file and saving the command's output to "task.log"
+            task_log_path = os.path.join(task_folder_path, 'task.log')
+            try:
+                with open(task_log_path, 'w') as log_file:
+                    subprocess.run(['run.bat'], cwd=task_folder_path, stdout=log_file, stderr=log_file)
+                
+            except:
+                print(f"Task execution failed.")
+
+            if os.path.exists(task_log_path):
+                with open(task_log_path, 'r') as file:
+                    log_data = file.read()
+
+                print(log_data)
+                print(f"Command completed successfully.")
+
+                prompt_file = config["prompts"]["code_check_prompt"]["file"]
+                prompt_model = config["prompts"]["code_check_prompt"]["model"]
+
+                if config["openai_settings"]["base_model"]["use"]:
+                    prompt_model = config["openai_settings"]["base_model"]["model"]
+
+                # Look for the "gpt-4" model, or default to the first model if not found
+                selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+                # Read the prompt from the specified file
+                with open(prompt_file, 'r') as file:
+                    system_prompt = file.read()
+                    
+                folder_dump = folder_to_object(task_folder_path)
+                folder_dump = json.dumps(folder_dump)
+                print("OK1")
+                check_data = {
+                    "source": folder_dump,
+                    "log": log_data
+                }
+
+                # Step 2: Calling send_message with the test input prompt to create "input.dat"
+                # (Placeholder for send_message function call - implementation to be added)
+                # Construct the conversation with OpenAI using the system prompt and user input
+                print("OK2")
+                check_data = json.dumps(check_data)
+                print("OK3")
+                
+                conversation = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": check_data}
+                ]
+
+                # Step 2: Send the questions and answers to OpenAI"
+                openai_response = send_message(conversation, config, selected_model)  # Modify this line to match your OpenAI call
+                print("OK4")
+
+                print(openai_response)
+            else:
+                print(f"Unable to find {task_log_path}.")
+
+        except:
+            print("Response: " + openai_response)
+            print(f"Input Data format failed.")
+    except:
+        print("Response: " + openai_response)
+        print(f"Input Data generation failed.")
+
+    
+
 
 def generate_task_source(company_profile):
     # Check if 'company_bots' key exists in company_profile, and default to an empty list if not
@@ -110,7 +226,7 @@ def generate_task_source(company_profile):
             print("Operation canceled.")
             return
 
-
+    print(f"Description to Use : {chosen_task['description']}")
     explain_more = input("\nDo you want to explain the functionality more? (y/n): ").lower() == 'y'
     functionality_text = input("Please provide additional functionality explanation: ") if explain_more else ""
 
@@ -536,11 +652,15 @@ def question_bots_with_openai(company_profile):
     # Extract the new flow structure and update the company profile
     new_flow_structure = openai_response
 
-    # Assuming new_flow_structure is a JSON string
-    new_flow_structure_json = json.loads(new_flow_structure)
-    company_profile["company_bots"] = new_flow_structure_json["company_bots"]
+    try:
+        # Assuming new_flow_structure is a JSON string
+        new_flow_structure_json = json.loads(new_flow_structure)
+        company_profile["company_bots"] = new_flow_structure_json["company_bots"]
 
-    print("Bots structure generated/updated successfully with OpenAI!")
+        print("Bots structure generated/updated successfully with OpenAI!")
+    except:
+        print(new_flow_structure)
+        print("Bots structure generated/updated failed with OpenAI!")
 
     return company_profile
 

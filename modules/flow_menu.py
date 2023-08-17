@@ -1,31 +1,7 @@
 import json
 import os
 from modules.chat_handler import send_message
-
-def list_companies():
-    companies_dir = 'companies'
-    company_files = [f for f in os.listdir(companies_dir) if f.endswith('.json')]
-    companies = []
-    for file in company_files:
-        file_path = os.path.join(companies_dir, file)
-        with open(file_path, 'r') as f:
-            company = json.load(f)
-            companies.append((company['name'], file_path))
-    return companies
-
-
-def choose_company():
-    companies = list_companies()
-    print("\nChoose a Company:")
-    for i, (name, _) in enumerate(companies):
-        print(f"{i + 1}. {name}")
-    choice = int(input("Please choose a company (1-{}): ".format(len(companies)))) - 1
-    return companies[choice][1]
-
-def load_company_profile(file_path):
-    with open(file_path, 'r') as file:
-        company_profile = json.load(file)
-    return company_profile
+from modules.utils import list_companies, load_company_profile, choose_company
 
 def edit_flow_menu(company_profile):
     # Check if 'flow' key exists, and if not, initialize it with empty nodes and edges

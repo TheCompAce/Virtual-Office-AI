@@ -12,8 +12,8 @@ Using the provided JSON data representing the company's existing "company_bots" 
    Each task object should contain:
    - "id": A unique identifier for the task.
    - "name": The name of the task.
-   - "description": A brief description of how the task works, we also need to explain the input data we need for the task, and the ouput data of the task.
+   - "description": A brief description of how to Implement the task, we also need to explain the input data we need for the task, and the ouput data of the task.
    - "code_folder_path": This value should be "null" if this is a new item.
    - "code_status": "empty"
 
-If the existing "company_bots" structure is provided, modify it as needed to improve functionality. Otherwise, create a new "company_bots" structure following the described format. Return only the "company_bots" data key only (in plain text with no descriptions of the returned responses, and ensure the object starts with the "company_bots" key) as a single JSON data object.
+If the existing "company_bots" structure is provided (and must have items for "bots" and "tasks"), modify it as needed to improve functionality. Otherwise, create a new "company_bots" structure following the described format. Return only the "company_bots" data key only (in plain text with no descriptions of the returned responses, and ensure the object starts with the "company_bots" key) as a single JSON data object.

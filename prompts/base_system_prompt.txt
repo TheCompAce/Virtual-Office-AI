@@ -1,0 +1,6 @@
+### Base System Prompt
+Not not use the inlcudes (in the "Ignore" list below) when creating source code.
+[Ignore]
+[/Ignore]
+
+### Task System Prompt

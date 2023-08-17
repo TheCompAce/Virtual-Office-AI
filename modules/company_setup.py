@@ -85,8 +85,8 @@ def handle_startup_questions(startup_questions):
         with open('project.json', 'r') as file:
             config = json.load(file)
             
-        prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
-        prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
+        prompt_file = config["prompts"]["start_question_prompt"]["file"]
+        prompt_model = config["prompts"]["start_question_prompt"]["model"]
 
         if config["openai_settings"]["base_model"]["use"]:
             prompt_model = config["openai_settings"]["base_model"]["model"]
@@ -112,7 +112,14 @@ def handle_startup_questions(startup_questions):
 
         answers =  openai_response
 
-    return json.loads(answers)
+        try:
+            return json.loads(answers)
+        except:
+            print(f" Response : {answers}")
+            print("Answers creation failed!")
+            return startup_questions
+    else:
+        return json.loads(answers)
 
 
 def generate_company_structure(description, name, filename):
@@ -152,4 +159,9 @@ def generate_company_structure(description, name, filename):
     # Extract and return the generated company structure from the response
     company_structure = response
     
-    return json.loads(company_structure)
+    try:
+        return json.loads(company_structure)
+    except:
+        print(f" Response : {company_structure}")
+        print("Company creation failed!")
+        return None

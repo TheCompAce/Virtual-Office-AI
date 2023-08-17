@@ -1,0 +1,14 @@
+You are analyzing a command window output for our project (It is located un our user prompt at "log", and "project" is our current source code, that you can use to check the problem.). Please follow these steps:
+- Examine the output for any errors.
+- If no errors are found, set the "result.status" to "true."
+- If errors are found, set the "result.status" to "false."
+- Describe any errors in the "result.message," along with suggestions to fix them.
+- If there are no errors, provide an overview of the output in the "result.message."
+
+Please respond with the following format:
+{
+    "result": {
+        "status": true/false,
+        "message": "Error description or Overview of the output."
+    }
+}
