@@ -1,3 +1,18 @@
+
+# VirtualOfficeAI 🏢
+
+VirtualOfficeAI leverages a stack of GPT bots to create a virtual office environment that allows collaboration, task management, and interaction among virtual employees. It offers a flexible solution for modern businesses.
+
+## Table of Contents 📑
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Code Overview](#code-overview)
+6. [Contributing](#contributing)
+7. [License](#license)
+
+## Introduction 🌐
 # VirtualOfficeAI
 
 VirtualOfficeAI is a cutting-edge system that leverages a stack of GPT bots to create a virtual office environment. This virtual environment allows for collaboration, task management, and interaction among virtual employees, offering a flexible solution for modern businesses.
@@ -10,25 +25,26 @@ VirtualOfficeAI is a cutting-edge system that leverages a stack of GPT bots to c
 4. [Contributing](#contributing)
 5. [License](#license)
 
-## Features
+## Features 🚀
+### OpenAI Settings 🔧
 
-### OpenAI Settings
+- **Manage Models**: Add, delete, modify models, API keys, temperature, top_p, max tokens.
+- **Streaming**: A boolean flag indicating whether to use streaming or not.
 
-- **Manage Models**: Add, delete, or modify models, API keys, temperature, top_p, and max tokens.
 
-### Company Management
+### Company Management 🏭
 
-- **Create Company**: Set up a virtual company with a guided process that includes description, name, and file generation.
-- **Company Flow**: View, add, edit, delete, and generate flow structures using OpenAI.
-- **Company Bots**: Manage bots within the company, including tasks, source code generation, and OpenAI integration.
+- **Create Company**: Set up a virtual company with description, name, file generation.
+- **Company Flow**: View, add, edit, delete, generate flow structures.
+- **Company Bots**: Manage bots, tasks, source code generation, OpenAI integration.
 
-## Installation
 
-To install and run VirtualOfficeAI, simply execute the `run.bat` file. This batch file is configured to set up the necessary environment, install dependencies, and launch the main application.
+### Installation 💻
 Note: You need to run "run.bat" in "x64 Native Command Tools for VS*" before running first time.
+To install and run VirtualOfficeAI, simply execute the `run.bat` file. This batch file is configured to set up the necessary environment, install dependencies, and launch the main application.
 
-## Usage
 
+## Usage 🛠️
 ### Managing OpenAI Models
 
 Navigate to the OpenAI Settings menu to add, modify, or delete OpenAI models and configurations.
@@ -39,15 +55,24 @@ Navigate to the OpenAI Settings menu to add, modify, or delete OpenAI models and
 2. **Company Flow**: Edit the flow structure, nodes, and edges of the company, or generate them using OpenAI.
 3. **Company Bots**: Add, edit, or delete bots and tasks within the company. Generate task source code and interact with bots using OpenAI.
 
-## Contributing
+## Code Overview 📖
 
+- **Company Management**: Create, configure, and manage virtual companies.
+- **Flow Management**: Edit and manage the flow structure within companies.
+- **Bot Management**: Manage bots and tasks, including generation using OpenAI.
+- **Chat Handling**: Handle chat interactions using different models.
+- **Main Menu**: Interactive user interface to navigate and interact with the application.
+- **Potential Enhancements**: Error handling, documentation, testing, security.
+
+
+## Contributing 🤝
 Just Me.
 
-## License
-
+## License 📜
 This project is licensed under a general non-commercial license. You may use, copy, and distribute this project for personal, educational, and non-commercial purposes only.
 
-### Additional Notes
+## Additional Notes 📝
 
-- **Chat Handling**: VirtualOfficeAI supports various models for handling conversations within the virtual environment.
-- **Utilities**: Provides functionalities for dynamically creating and managing folder structures.
+- **Chat Handling**: Supports various models for handling conversations.
+- **Utilities**: Functionalities for dynamically creating and managing folder structures.
+
