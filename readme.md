@@ -29,7 +29,6 @@ VirtualOfficeAI is a cutting-edge system that leverages a stack of GPT bots to c
 ### OpenAI Settings 🔧
 
 - **Manage Models**: Add, delete, modify models, API keys, temperature, top_p, max tokens.
-- **Streaming**: A boolean flag indicating whether to use streaming or not.
 
 
 ### Company Management 🏭
@@ -64,6 +63,10 @@ Navigate to the OpenAI Settings menu to add, modify, or delete OpenAI models and
 - **Main Menu**: Interactive user interface to navigate and interact with the application.
 - **Potential Enhancements**: Error handling, documentation, testing, security.
 
+## Additional Notes 📝
+
+- **Chat Handling**: Supports various models for handling conversations.
+- **Utilities**: Functionalities for dynamically creating and managing folder structures.
 
 ## Contributing 🤝
 Just Me, so far.
@@ -71,9 +74,4 @@ Just Me, so far.
 ## License 📜
 📜
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
-
-## Additional Notes 📝
-
-- **Chat Handling**: Supports various models for handling conversations.
-- **Utilities**: Functionalities for dynamically creating and managing folder structures.
 
