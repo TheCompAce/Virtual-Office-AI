@@ -1,0 +1,69 @@
+{
+  "name": "VirtualOfficeAI",
+  "description": "Using a stack of GPT bots to create a virtual office environment, VirtualOfficeAI aims to enable collaboration, task management, and interaction among virtual employees. By leveraging AI-driven interactions, the system can create, produce, and manage any product or service, offering a flexible and scalable solution for modern business needs.",
+  "openai_settings": {
+    "models": [
+      {
+        "name": "gpt-3.5-turbo",
+        "cost": 0.002,
+        "type": "openai"
+      },
+      {
+        "name": "gpt-4",
+        "cost": 0.06,
+        "type": "openai"
+      },
+      {
+        "name": "psmathur/orca_mini_7b",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "Takes 30 minutes per request. Does not add all the information."
+      },
+      {
+        "name": "OpenOrca-Platypus2-13B",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "locked"
+      },
+      {
+        "name": "garage-bAInd/Platypus2-13B",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "locked"
+      },
+      {
+        "name": "stabilityai/StableBeluga2",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "to big 100+ GB"
+      },
+      {
+        "name": "psmathur/orca_mini_v3_13b",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "need bitsandbytes, gave up."
+      },
+      {
+        "name": "The-Face-Of-Goonery/Huginn-13b-FP16",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "Was taking to long, gave up after 2 hours."
+      },
+      {
+        "name": "circulus/Llama-2-7b-orca-v1",
+        "cost": 0.0,
+        "type": "local",
+        "notes": "Works, 2 hours per request. Does not make a name or description own it's own for new compaines."
+      }
+    ],
+    "api_key": "",
+    "temperature": 1,
+    "top_p": 1,
+    "max_tokens": 1000,
+    "streaming": false
+  },
+  "company_prompt": {
+    "file": "prompts/company_prompt.txt",
+    "model": "gpt-3.5-turbo"
+  }
+}

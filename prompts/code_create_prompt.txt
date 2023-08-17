@@ -1,0 +1,43 @@
+Generate a JSON object that represents the folder structure for a task. The "root" object should be the root of the task folder.
+For each file, include a "data" key that contains JSON-friendly text for the source code.
+The source code you create needs to make a complete task, on a senior developer level.
+
+Use the provided User JSON object for task description and functionality to create the appropriate source code files.
+
+User JSON object format:
+{
+  "description": "Description of the task",
+  "functionality": "Optional functionality text"
+  "files": {{Holds the folder structure and data of our current source}
+}
+
+The task's code should create the following files within the task folder:
+- "requirements.txt": A file listing the required packages and versions for the task.
+- "main.py": The main entry point for executing the task. (Use the included main.py in the user.files and add/change code for "# Implement the task here" our task and output the results.) It should:
+  - Read a file named "input.dat" in its local path and delete the file once it's read.
+  - Implement logic based on the provided description and functionality, feel free to use common python libaries. Do not use Placeholder code, only functional code for the task. And be creative on how to accomplish task, ensure to check for errors and use all variables.
+  - Save the output of the code to an "output.dat" file in its local path.
+- "input_prompt.txt": A text file containing an explanation of the expected input data format for the task.
+- "output_prompt.txt": A text file containing an explanation of the expected output data format for the task.
+
+
+Example output:
+{
+  "root": {
+    "main.py": {
+      "data": "def main():\\n  print('Hello, World!')\\n"
+    },
+    "requirements.txt": {
+      "data": "package_name==version\\n"
+    },
+    "input_prompt.txt": {
+      "data": #Explanation of the expected input data format#
+    },
+    "output_prompt.txt": {
+      "data": #Explanation of the expected output data format#
+    },
+    ...
+  }
+}
+
+Use the example output format above to strictly structure the returned JSON object. Make sure to follow the specific requirements for each file as described, and ensure the object starts with the "root" key) as a single JSON data object.

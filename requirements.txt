@@ -1,0 +1,8 @@
+requests
+# hnswlib==0.6.2
+langflow
+accelerate
+transformers
+safetensors
+huggingface_hub[cli,torch]
+# Other dependencies

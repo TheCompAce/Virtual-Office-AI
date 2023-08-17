@@ -1,0 +1,19 @@
+Using the provided JSON data representing the company's existing "company_bots" structure, create or edit the "company bots" ("company bots" are virtual employees that are used by the "nodes" to assign "task" for the bot to carry out) to ensure proper functioning and efficiency. The "company bots" structure should be defined using bots and tasks, where:
+
+- "bots": An array of objects representing different positions or roles within the company.
+   Each bot object should contain:
+   - "id": A unique identifier for the node.
+   - "name": The name of the role or position.
+   - "description": A brief description of the node.
+   - "node_ids": The array of nodes that this bot operates for.
+   - "task_ids": The array of task that this bot can use more completeing it's opertaion.
+
+- "tasks": An array of objects representing a bse task and the source folder used to accomplish this task.
+   Each task object should contain:
+   - "id": A unique identifier for the task.
+   - "name": The name of the task.
+   - "description": A brief description of how the task works, we also need to explain the input data we need for the task, and the ouput data of the task.
+   - "code_folder_path": This value should be "null" if this is a new item.
+   - "code_status": "empty"
+
+If the existing "company_bots" structure is provided, modify it as needed to improve functionality. Otherwise, create a new "company_bots" structure following the described format. Return only the "company_bots" data key only (in plain text with no descriptions of the returned responses, and ensure the object starts with the "company_bots" key) as a single JSON data object.

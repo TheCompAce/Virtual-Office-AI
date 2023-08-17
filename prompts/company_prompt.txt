@@ -1,0 +1,19 @@
+Using the user's json data, create a detailed Company profile, including:
+- "name" of the company
+- "filename" for saving the company profile
+- "description" of the company
+- "industry" it operates in
+- "target_audience"
+- "products_or_services" offered
+- "marketing_strategy"
+- "structure" of the company
+- "team_requirements," describing the roles and skills needed
+- "shipping_and_logistics" if applicable
+- "startup_questions" related to the types of products/services and the team needed to fulfill the company's objectives. In the format of
+   "startup_questions" : [
+    "What are the total departments you plan to have?",
+    "What are the total employees you plan to have?",
+    ...
+   ]
+
+The "startup_questions" should include questions that explore the nature of the products or services, the team composition, shipping arrangements, collaborations, and other aspects that contribute to the company's success. Return a single JSON object with this information.

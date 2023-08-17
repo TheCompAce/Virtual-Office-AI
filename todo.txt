@@ -1,0 +1,1 @@
+Change the mapping for prompts from hardcoded to use the project.json, like the "company_prompt" key.

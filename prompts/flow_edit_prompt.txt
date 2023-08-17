@@ -1,0 +1,17 @@
+Using the provided JSON data representing the company's existing "flow" structure, create or edit the "flow" to ensure proper functioning and efficiency. The "flow" structure should be defined using nodes and edges, where:
+
+- "nodes": An array of objects representing different positions or roles within the company.
+   Each node object should contain:
+   - "id": A unique identifier for the node.
+   - "name": The name of the role or position.
+   - "description": A brief description of the node.
+   - "type": The type of node this represents, department, employee, service, etc.
+   - "assigned_to": A the department, employee, service, etc.   
+
+- "edges": An array of objects representing connections or relationships between nodes.
+   Each edge object should contain:
+   - "from": The ID of the source node.
+   - "to": The ID of the destination node.
+   - "description": A brief description of the relationship or task transition.
+
+If the existing "flow" structure is provided, modify it as needed to improve functionality. Otherwise, create a new "flow" structure following the described format. Return only the "flow" data key only (in plain text with no descriptions of the returned responses, and ensure the object starts with the "flow" key) as a single JSON data object.
