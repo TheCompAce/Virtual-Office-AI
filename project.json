@@ -2,16 +2,22 @@
   "name": "VirtualOfficeAI",
   "description": "Using a stack of GPT bots to create a virtual office environment, VirtualOfficeAI aims to enable collaboration, task management, and interaction among virtual employees. By leveraging AI-driven interactions, the system can create, produce, and manage any product or service, offering a flexible and scalable solution for modern business needs.",
   "openai_settings": {
+    "base_model": {
+      "model": "gpt-3.5-turbo",
+      "use": false
+    },
     "models": [
       {
         "name": "gpt-3.5-turbo",
         "cost": 0.002,
-        "type": "openai"
+        "type": "openai",
+        "notes": "Cheapest and works for most things."
       },
       {
         "name": "gpt-4",
         "cost": 0.06,
-        "type": "openai"
+        "type": "openai",
+        "notes": "Required for generating decent code."
       },
       {
         "name": "psmathur/orca_mini_7b",
@@ -56,14 +62,43 @@
         "notes": "Works, 2 hours per request. Does not make a name or description own it's own for new compaines."
       }
     ],
-    "api_key": "",
     "temperature": 1,
     "top_p": 1,
     "max_tokens": 1000,
     "streaming": false
   },
-  "company_prompt": {
-    "file": "prompts/company_prompt.txt",
-    "model": "gpt-3.5-turbo"
+  "prompts": {
+    "company_prompt": {
+      "file": "prompts/company_prompt.txt",
+      "model": "gpt-3.5-turbo"
+    },
+    "start_questions_prompt": {
+      "file": "prompts/start_question_prompt.txt",
+      "model": "gpt-3.5-turbo"
+    },
+    "flow_question_prompt": {
+      "file": "prompts/flow_question_prompt.txt",
+      "model": "uses flow_edit_prompt model"
+    },
+    "flow_edit_prompt": {
+      "file": "prompts/flow_edit_prompt.txt",
+      "model": "gpt-3.5-turbo"
+    },
+    "bots_question_prompt": {
+      "file": "prompts/bots_question_prompt.txt",
+      "model": "uses bots_edit_prompt model"
+    },
+    "bots_edit_prompt": {
+      "file": "prompts/bots_edit_prompt.txt",
+      "model": "gpt-4"
+    },
+    "code_check_prompt": {
+      "file": "prompts/code_check_prompt.txt",
+      "model": "gpt-4"
+    },
+    "code_create_prompt": {
+      "file": "prompts/code_create_prompt.txt",
+      "model": "gpt-4"
+    }
   }
 }

@@ -4,8 +4,6 @@ import shutil
 from modules.chat_handler import send_message
 from modules.utils import create_folder_structure, folder_to_object
 
-base_model = "gpt-4"
-
 def list_companies():
     companies_dir = 'companies'
     company_files = [f for f in os.listdir(companies_dir) if f.endswith('.json')]
@@ -152,11 +150,17 @@ def generate_task_source(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
-    # Look for the "gpt-4" model, or default to the first model if not found
-    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == base_model), config["openai_settings"]["models"][0])
+    prompt_file = config["prompts"]["code_create_prompt"]["file"]
+    prompt_model = config["prompts"]["code_create_prompt"]["model"]
 
-    # Load the prompt from the file
-    with open('prompts/code_create_prompt.txt', 'r') as file:
+    if config["openai_settings"]["base_model"]["use"]:
+        prompt_model = config["openai_settings"]["base_model"]["model"]
+
+    # Look for the "gpt-4" model, or default to the first model if not found
+    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+    # Read the prompt from the specified file
+    with open(prompt_file, 'r') as file:
         system_prompt = file.read()
 
     # Convert the flow to JSON string format
@@ -443,11 +447,17 @@ def generate_bots_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
-    # Look for the "gpt-4" model, or default to the first model if not found
-    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == base_model), config["openai_settings"]["models"][0])
+    prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
+    prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
 
-    # Load the prompt from the file
-    with open('prompts/bots_edit_prompt.txt', 'r') as file:
+    if config["openai_settings"]["base_model"]["use"]:
+        prompt_model = config["openai_settings"]["base_model"]["model"]
+
+    # Look for the "gpt-4" model, or default to the first model if not found
+    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+    # Read the prompt from the specified file
+    with open(prompt_file, 'r') as file:
         system_prompt = file.read()
 
     # Convert the flow to JSON string format
@@ -465,11 +475,18 @@ def generate_bots_with_openai(company_profile):
     # Extract the new flow structure and update the company profile
     new_flow_structure = openai_response
 
-    # Assuming new_flow_structure is a JSON string
-    new_flow_structure_json = json.loads(new_flow_structure)
-    company_profile["company_bots"] = new_flow_structure_json["company_bots"]
+    # Writing the generated source code to the task folder
+    try:
+        # Assuming new_flow_structure is a JSON string
+        new_flow_structure_json = json.loads(new_flow_structure)
+        company_profile["company_bots"] = new_flow_structure_json["company_bots"]
 
-    print("Flow structure generated/updated successfully with OpenAI!")
+        print("Bot structure generated/updated successfully with OpenAI!")
+    except:
+        print("Response: " + openai_response)
+        print(f"Bots structure generation failed.")  
+
+    
 
     return company_profile
 
@@ -482,14 +499,24 @@ def question_bots_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
-    # Look for the "gpt-4" model, or default to the first model if not found
-    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == base_model), config["openai_settings"]["models"][0])
+    prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
+    prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
 
-    # Load the prompt from the file
-    with open('prompts/bots_edit_prompt.txt', 'r') as file:
+    prompt_question_file = config["prompts"]["bots_question_prompt"]["file"]
+    # prompt_question_model = config["prompts"]["bots_question_prompt"]["model"]
+
+    if config["openai_settings"]["base_model"]["use"]:
+        prompt_model = config["openai_settings"]["base_model"]["model"]
+        # prompt_question_model = prompt_model
+
+    # Look for the "gpt-4" model, or default to the first model if not found
+    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+    # Read the prompt from the specified file
+    with open(prompt_file, 'r') as file:
         system_prompt = file.read()
 
-    with open('prompts/bots_question_prompt.txt', 'r') as file:
+    with open(prompt_question_file, 'r') as file:
         system_question_prompt = file.read()
 
     # Convert the flow to JSON string format

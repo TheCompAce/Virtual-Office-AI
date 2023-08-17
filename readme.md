@@ -25,6 +25,7 @@ VirtualOfficeAI is a cutting-edge system that leverages a stack of GPT bots to c
 ## Installation
 
 To install and run VirtualOfficeAI, simply execute the `run.bat` file. This batch file is configured to set up the necessary environment, install dependencies, and launch the main application.
+Note: You need to run "run.bat" in "x64 Native Command Tools for VS*" before running first time.
 
 ## Usage
 

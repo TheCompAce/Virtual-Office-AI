@@ -1,6 +1,7 @@
 import requests
 import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer, AutoModelForCausalLM, AutoTokenizer, pipeline
+from modules.utils import load_options
 
 def send_message(conversation, config, model):  # Add model as a parameter
 
@@ -84,10 +85,11 @@ def send_message(conversation, config, model):  # Add model as a parameter
         return string
     else:
         openai_settings = config["openai_settings"]
+        options = load_options()  # Load options including the API key
         url = "https://api.openai.com/v1/chat/completions"
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f'Bearer {openai_settings["api_key"]}'
+            "Authorization": f'Bearer {options["api_key"]}'
         }
 
         data = {

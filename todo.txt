@@ -1,1 +1,7 @@
-Change the mapping for prompts from hardcoded to use the project.json, like the "company_prompt" key.
+Add Error checking to all OpenAI calls.
+
+Update Git
+===============================
+Changed the code so the OpenAI key is saved in a standalone file "options.json", added to .getignore to prevent key leaking.
+Added the new fields to "Add Model"
+Change the mapping for prompts from hardcoded to use the project.json, like the "company_prompt" key. Now each prompt has it's own model to use. We also added a global "base_model" to override all models with the one set.

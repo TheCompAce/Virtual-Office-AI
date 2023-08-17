@@ -1,1 +1,1 @@
-Ensure to run in "x64 Native " before running first time.
+Ensure to run "run.bat" in "x64 Native Command Tools for VS*" before running first time.

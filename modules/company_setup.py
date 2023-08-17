@@ -4,8 +4,6 @@ from modules.chat_handler import send_message
 from modules.flow_menu import setup_company_flow
 from modules.bots_menu import setup_company_bots
 
-base_model = "gpt-3.5-turbo"
-
 def create_company():
     # Ask for a description of the company
     description = input("Please provide a description for the company: ")
@@ -87,11 +85,17 @@ def handle_startup_questions(startup_questions):
         with open('project.json', 'r') as file:
             config = json.load(file)
             
-        # Look for the "gpt-4" model, or default to the first model if not found
-        selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == base_model), config["openai_settings"]["models"][0])
+        prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
+        prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
 
-        # Load the prompt from the file
-        with open('prompts/start_question_prompt.txt', 'r') as file:
+        if config["openai_settings"]["base_model"]["use"]:
+            prompt_model = config["openai_settings"]["base_model"]["model"]
+
+        # Look for the "gpt-4" model, or default to the first model if not found
+        selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+        # Read the prompt from the specified file
+        with open(prompt_file, 'r') as file:
             system_prompt = file.read()
 
         # Convert answers to JSON string format
@@ -116,15 +120,18 @@ def generate_company_structure(description, name, filename):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
-    company_prompt_file = config["company_prompt"]["file"]
-    company_prompt_model = config["company_prompt"]["model"]
+    prompt_file = config["prompts"]["company_prompt"]["file"]
+    prompt_model = config["prompts"]["company_prompt"]["model"]
 
-    # Read the prompt from the specified file
-    with open(company_prompt_file, 'r') as file:
-        system_prompt = file.read()
+    if config["openai_settings"]["base_model"]["use"]:
+        prompt_model = config["openai_settings"]["base_model"]["model"]
 
     # Look for the "gpt-4" model, or default to the first model if not found
-    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == base_model), config["openai_settings"]["models"][0])
+    selected_model = next((model for model in config["openai_settings"]["models"] if model["name"] == prompt_model), config["openai_settings"]["models"][0])
+
+    # Read the prompt from the specified file
+    with open(prompt_file, 'r') as file:
+        system_prompt = file.read()
 
     # Prepare the user input as a JSON object
     user_input = json.dumps({

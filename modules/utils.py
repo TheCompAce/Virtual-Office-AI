@@ -37,3 +37,14 @@ def folder_to_object(folder_path):
                 current_dir[file] = {"data": file_data}
 
     return {"root": root_obj}
+
+def load_options():
+    try:
+        with open('options.json', 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {"api_key": ""}
+
+def save_options(options):
+    with open('options.json', 'w') as file:
+        json.dump(options, file, indent=2)
