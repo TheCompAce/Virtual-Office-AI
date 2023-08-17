@@ -66,7 +66,7 @@ Navigate to the OpenAI Settings menu to add, modify, or delete OpenAI models and
 
 
 ## Contributing 🤝
-Just Me.
+Just Me, so far.
 
 ## License 📜
 📜
