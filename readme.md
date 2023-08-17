@@ -69,7 +69,8 @@ Navigate to the OpenAI Settings menu to add, modify, or delete OpenAI models and
 Just Me.
 
 ## License 📜
-This project is licensed under a general non-commercial license. You may use, copy, and distribute this project for personal, educational, and non-commercial purposes only.
+📜
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
 ## Additional Notes 📝
 
