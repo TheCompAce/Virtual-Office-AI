@@ -3,14 +3,6 @@
 
 VirtualOfficeAI is a cutting-edge system that leverages a stack of GPT bots to create a virtual office environment. This virtual environment allows for collaboration, task management, and interaction among virtual employees, offering a flexible solution for modern businesses.
 
-## Table of Contents 📑
-2. [Features](##features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Code Overview](#code-overview)
-6. [Contributing](#contributing)
-7. [License](#license)
-
 ## Features 🚀
 ### OpenAI Settings 🔧
 
