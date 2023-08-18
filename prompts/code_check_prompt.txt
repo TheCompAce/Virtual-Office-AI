@@ -12,3 +12,7 @@ Please respond with the following format:
         "message": "Error description or Overview of the output."
     }
 }
+
+
+Notes:
+- If you find "make sure that the Microsoft Visual C++ Build Tools are installed" in "log" then we should use another library, and change the code accordingly.

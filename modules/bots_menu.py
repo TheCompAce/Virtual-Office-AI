@@ -159,24 +159,21 @@ def test_task_source(company_profile):
                     system_prompt = file.read()
 
                 # Check if log_data is greater than 1000 characters
-                if len(log_data) > 100:
+                if len(log_data) > 1000:
                     # Find the index of the first space character after the 1000th character
-                    index = log_data.find(' ', 100)
+                    index = log_data.find(' ', len(log_data) - 1000)
                     # If a space character is found, slice the string from that index
                     if index != -1:
                         log_data = log_data[index:]
                     # If no space character is found after the 1000th character, slice the last 1000 characters
                     else:
-                        log_data = log_data[-100:]
-
-                # Assuming log_data is a string
-                log_data_encoded = base64.b64encode(log_data.encode('utf-8')).decode('utf-8')
+                        log_data = log_data[-1000:]
 
                 try:
                     folder_dump = folder_to_object(task_folder_path)
                     check_data = {
                         "source": folder_dump,
-                        "log": log_data_encoded
+                        "log": log_data
                     }
                     # 
                     # Step 2: Calling send_message with the test input prompt to create "input.dat"

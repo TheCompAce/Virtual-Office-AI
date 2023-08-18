@@ -132,9 +132,10 @@ def send_message(conversation, config, model):  # Add model as a parameter
 
         response = requests.post(url, json=data, headers=headers, timeout=60)
 
-        print(response)
+        
 
         json_content = response.json()
+        print(json_content)
     
         return json_content["choices"][0]["message"]["content"]
 
