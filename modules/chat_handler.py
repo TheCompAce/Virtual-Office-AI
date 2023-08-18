@@ -135,8 +135,13 @@ def send_message(conversation, config, model):  # Add model as a parameter
         
 
         json_content = response.json()
-        print(json_content)
+        
     
-        return json_content["choices"][0]["message"]["content"]
+        try:
+            return json_content["choices"][0]["message"]["content"]
+        except:
+            print(conversation)
+            print("Error calling send_message")
+            return None
 
 # Other related functions
