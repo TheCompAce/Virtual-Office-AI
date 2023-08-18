@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 import shutil
@@ -126,6 +127,7 @@ def test_task_source(company_profile):
             file.write(file_data["input"])
 
         print(f"Input Data generated correctly.")
+        print(f"Starting Task execution ...")
         try:
             # Step 3: Running the "run.bat" file and saving the command's output to "task.log"
             task_log_path = os.path.join(task_folder_path, 'task.log')
@@ -155,32 +157,47 @@ def test_task_source(company_profile):
                 # Read the prompt from the specified file
                 with open(prompt_file, 'r') as file:
                     system_prompt = file.read()
+
+                # Check if log_data is greater than 1000 characters
+                if len(log_data) > 100:
+                    # Find the index of the first space character after the 1000th character
+                    index = log_data.find(' ', 100)
+                    # If a space character is found, slice the string from that index
+                    if index != -1:
+                        log_data = log_data[index:]
+                    # If no space character is found after the 1000th character, slice the last 1000 characters
+                    else:
+                        log_data = log_data[-100:]
+
+                # Assuming log_data is a string
+                log_data_encoded = base64.b64encode(log_data.encode('utf-8')).decode('utf-8')
+
+                try:
+                    folder_dump = folder_to_object(task_folder_path)
+                    check_data = {
+                        "source": folder_dump,
+                        "log": log_data_encoded
+                    }
+                    # 
+                    # Step 2: Calling send_message with the test input prompt to create "input.dat"
+                    # (Placeholder for send_message function call - implementation to be added)
+                    # Construct the conversation with OpenAI using the system prompt and user input
+                    check_data = json.dumps(check_data)
                     
-                folder_dump = folder_to_object(task_folder_path)
-                folder_dump = json.dumps(folder_dump)
-                print("OK1")
-                check_data = {
-                    "source": folder_dump,
-                    "log": log_data
-                }
+                    conversation = [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": check_data}
+                    ]
+                    
+                    try:
+                        # Step 2: Send the questions and answers to OpenAI"
+                        openai_response = send_message(conversation, config, selected_model)  # Modify this line to match your OpenAI call
 
-                # Step 2: Calling send_message with the test input prompt to create "input.dat"
-                # (Placeholder for send_message function call - implementation to be added)
-                # Construct the conversation with OpenAI using the system prompt and user input
-                print("OK2")
-                check_data = json.dumps(check_data)
-                print("OK3")
-                
-                conversation = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": check_data}
-                ]
-
-                # Step 2: Send the questions and answers to OpenAI"
-                openai_response = send_message(conversation, config, selected_model)  # Modify this line to match your OpenAI call
-                print("OK4")
-
-                print(openai_response)
+                        print(openai_response)
+                    except:
+                        print(f"Error calling OpenAI {conversation}.")
+                except:
+                    print(f"Error Reading Log {task_log_path}.")
             else:
                 print(f"Unable to find {task_log_path}.")
 
@@ -254,7 +271,7 @@ def generate_task_source(company_profile):
     shutil.copytree(task_template_path, task_folder_path, dirs_exist_ok=True)
 
 
-    files_str = folder_to_object(task_template_path)
+    files_str = folder_to_object(task_folder_path)
 
     task_description_json = {
         "description": chosen_task['description'],

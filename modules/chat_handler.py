@@ -130,10 +130,11 @@ def send_message(conversation, config, model):  # Add model as a parameter
         if openai_settings["streaming"]:
             data["stream"] = True
 
-        response = requests.post(url, json=data, headers=headers)
-        json_content = response.json()
+        response = requests.post(url, json=data, headers=headers, timeout=60)
 
-        # print(json_content)
+        print(response)
+
+        json_content = response.json()
     
         return json_content["choices"][0]["message"]["content"]
 

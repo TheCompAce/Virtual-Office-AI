@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 
@@ -20,10 +21,15 @@ def create_folder_structure(base_folder_path, folder_structure_json):
                 file.write(folder_data['data'])
             print(f"Created file: {file_path}")
 
-def folder_to_object(folder_path):
+def folder_to_object(folder_path, exclude="env,.git,.vs,.vscode,__pycache__,task.log"):
     root_obj = {}
+    exclude_list = [item.strip() for item in exclude.split(",")]
 
     for subdir, _, files in os.walk(folder_path):
+        # Skip excluded subdirectories
+        if any(excluded_item in subdir for excluded_item in exclude_list):
+            continue
+            
         relative_subdir = os.path.relpath(subdir, folder_path)
         current_dir = root_obj
         if relative_subdir != '.':
@@ -31,12 +37,24 @@ def folder_to_object(folder_path):
                 current_dir = current_dir.setdefault(part, {})
 
         for file in files:
+            # Skip excluded files
+            if any(excluded_item in file for excluded_item in exclude_list):
+                continue
+
             file_path = os.path.join(subdir, file)
-            with open(file_path, 'r', encoding='utf-8') as file_obj:
-                file_data = file_obj.read()
-                current_dir[file] = {"data": file_data}
+            try:
+                # Try reading the file with UTF-8 encoding
+                with open(file_path, 'r', encoding='utf-8') as file_obj:
+                    file_data = file_obj.read()
+            except UnicodeDecodeError:
+                # If UTF-8 decoding fails, read the file as bytes and encode with Base64
+                with open(file_path, 'rb') as file_obj:
+                    file_data = base64.b64encode(file_obj.read()).decode('utf-8')
+
+            current_dir[file] = {"data": file_data}
 
     return {"root": root_obj}
+
 
 def load_options():
     try:
