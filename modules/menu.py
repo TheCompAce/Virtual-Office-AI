@@ -14,7 +14,7 @@ def main_menu():
         print("4. Setup Company Bots")
         print("5. Execute Company")
         print("6. Exit")
-        choice = input("Please choose an option (1-5): ")
+        choice = input("Please choose an option (1-6): ")
 
         if choice == '1':
             modify_openai_settings()
