@@ -284,6 +284,12 @@ def generate_flow_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["flow_edit_prompt"]["file"]
     prompt_model = config["prompts"]["flow_edit_prompt"]["model"]
 
@@ -299,6 +305,8 @@ def generate_flow_with_openai(company_profile):
 
     # Convert the flow to JSON string format
     flow_json_string = json.dumps(company_profile)
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [
@@ -329,6 +337,12 @@ def question_flow_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["flow_edit_prompt"]["file"]
     prompt_model = config["prompts"]["flow_edit_prompt"]["model"]
 
@@ -351,6 +365,8 @@ def question_flow_with_openai(company_profile):
 
     # Convert the flow to JSON string format
     flow_json_string = json.dumps(company_profile)
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [

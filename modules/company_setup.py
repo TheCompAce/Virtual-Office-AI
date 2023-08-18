@@ -84,6 +84,12 @@ def handle_startup_questions(startup_questions):
         # Read the company prompt file from the project.json configuration
         with open('project.json', 'r') as file:
             config = json.load(file)
+
+        base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+        # Read the prompt from the specified file
+        with open(base_prompt_file, 'r') as file:
+            base_prompt = file.read()
             
         prompt_file = config["prompts"]["start_question_prompt"]["file"]
         prompt_model = config["prompts"]["start_question_prompt"]["model"]
@@ -100,6 +106,8 @@ def handle_startup_questions(startup_questions):
 
         # Convert answers to JSON string format
         answers_json_string = json.dumps(answers)
+
+        system_prompt = base_prompt + system_prompt
 
         # Construct the conversation with OpenAI using the system prompt and user input
         conversation = [
@@ -127,6 +135,12 @@ def generate_company_structure(description, name, filename):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["company_prompt"]["file"]
     prompt_model = config["prompts"]["company_prompt"]["model"]
 
@@ -146,6 +160,8 @@ def generate_company_structure(description, name, filename):
         "name": name,
         "filename": filename
     })
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [

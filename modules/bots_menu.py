@@ -85,6 +85,12 @@ def test_task_source(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["test_input_prompt"]["file"]
     prompt_model = config["prompts"]["test_input_prompt"]["model"]
 
@@ -108,6 +114,8 @@ def test_task_source(company_profile):
     # Step 1: Reading the task's input prompt from "input_prompt.txt"
     with open(os.path.join(task_folder_path, 'input_prompt.txt'), 'r') as file:
         input_prompt = file.read().strip()
+
+    system_prompt = base_prompt + system_prompt
         
     # Step 2: Calling send_message with the test input prompt to create "input.dat"
     # (Placeholder for send_message function call - implementation to be added)
@@ -180,6 +188,8 @@ def test_task_source(company_profile):
                     # (Placeholder for send_message function call - implementation to be added)
                     # Construct the conversation with OpenAI using the system prompt and user input
                     check_data = json.dumps(check_data)
+
+                    system_prompt = base_prompt + system_prompt
                     
                     conversation = [
                         {"role": "system", "content": system_prompt},
@@ -280,6 +290,12 @@ def generate_task_source(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["code_create_prompt"]["file"]
     prompt_model = config["prompts"]["code_create_prompt"]["model"]
 
@@ -295,6 +311,8 @@ def generate_task_source(company_profile):
 
     # Convert the flow to JSON string format
     task_json_string = json.dumps(task_description_json)
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [
@@ -577,6 +595,12 @@ def generate_bots_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
     prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
 
@@ -592,6 +616,8 @@ def generate_bots_with_openai(company_profile):
 
     # Convert the flow to JSON string format
     flow_json_string = json.dumps(company_profile)
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [
@@ -629,6 +655,12 @@ def question_bots_with_openai(company_profile):
     with open('project.json', 'r') as file:
         config = json.load(file)
 
+    base_prompt_file = config["prompts"]["base_system_prompt"]["file"]
+
+    # Read the prompt from the specified file
+    with open(base_prompt_file, 'r') as file:
+        base_prompt = file.read()
+
     prompt_file = config["prompts"]["bots_edit_prompt"]["file"]
     prompt_model = config["prompts"]["bots_edit_prompt"]["model"]
 
@@ -651,6 +683,8 @@ def question_bots_with_openai(company_profile):
 
     # Convert the flow to JSON string format
     bots_json_string = json.dumps(company_profile)
+
+    system_prompt = base_prompt + system_prompt
 
     # Construct the conversation with OpenAI using the system prompt and user input
     conversation = [
