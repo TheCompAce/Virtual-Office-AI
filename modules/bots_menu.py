@@ -139,9 +139,10 @@ def test_task_source(company_profile):
         try:
             # Step 3: Running the "run.bat" file and saving the command's output to "task.log"
             task_log_path = os.path.join(task_folder_path, 'task.log')
+            startup_script = config["openai_settings"]["startup_script"]
             try:
                 with open(task_log_path, 'w') as log_file:
-                    subprocess.run(['run.bat'], cwd=task_folder_path, stdout=log_file, stderr=log_file)
+                    subprocess.run([startup_script], cwd=task_folder_path, stdout=log_file, stderr=log_file)
                 
             except:
                 print(f"Task execution failed.")

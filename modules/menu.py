@@ -57,15 +57,16 @@ def modify_openai_settings():
         print("5. Modify Top_p")
         print("6. Modify Max Tokens")
         # print("7. Modify Streaming")  # Commented out as requested
-        print("7. Back to Main Menu")
-        choice = input("Please choose an option (1-7): ")
+        print("7. Set startup up script for bots.")
+        print("8. Back to Main Menu")
+        choice = input("Please choose an option (1-8): ")
 
         if choice == '1':
             name = input("Enter model name: ")
-            cost = float(input("Enter model cost: "))
-            type = float(input("Enter model cost: "))
-            notes = float(input("Enter model cost: "))
-            openai_settings["models"].append({"name": name, "cost": cost, "type": type, "notes": notes})
+            model_cost = float(input("Enter model cost: "))
+            model_type = float(input("Enter model type: "))
+            model_notes = float(input("Enter model note: "))
+            openai_settings["models"].append({"name": name, "cost": model_cost, "type": model_type, "notes": model_notes})
         elif choice == '2':
             model_index = int(input("Enter the index of the model to delete: ")) - 1
             if 0 <= model_index < len(openai_settings["models"]):
@@ -77,8 +78,8 @@ def modify_openai_settings():
             if new_value:
                 options["api_key"] = new_value
                 save_options(options)  # Save the API key to options.json
-        elif choice in ['4', '5', '6']:  # Modify other settings based on choice
-            keys = ["api_key", "temperature", "top_p", "max_tokens"]
+        elif choice in ['4', '5', '6', '7']:  # Modify other settings based on choice
+            keys = ["api_key", "temperature", "top_p", "max_tokens", "startup_script"]
             key = keys[int(choice) - 3]
             new_value = input(f"{key} (current value: {openai_settings[key]}): ")
             if new_value:
@@ -87,7 +88,7 @@ def modify_openai_settings():
         #     new_value = input(f"streaming (current value: {openai_settings['streaming']}): ")
         #     if new_value.lower() in ['true', 'false']:
         #         openai_settings['streaming'] = new_value.lower() == 'true'
-        elif choice == '7':
+        elif choice == '8':
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 7.")

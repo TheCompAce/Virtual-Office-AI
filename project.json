@@ -2,6 +2,7 @@
   "name": "VirtualOfficeAI",
   "description": "Using a stack of GPT bots to create a virtual office environment, VirtualOfficeAI aims to enable collaboration, task management, and interaction among virtual employees. By leveraging AI-driven interactions, the system can create, produce, and manage any product or service, offering a flexible and scalable solution for modern business needs.",
   "openai_settings": {
+    "startup_script": "run.bat",
     "base_model": {
       "model": "gpt-3.5-turbo",
       "use": false
@@ -67,7 +68,6 @@
         "type": "local",
         "notes": "Code Completion"
       }
-      
     ],
     "temperature": 1,
     "top_p": 1,
@@ -118,6 +118,6 @@
     "test_output_prompt": {
       "file": "prompts/test_output_prompt.txt",
       "model": "gpt-3.5-turbo"
-    }    
+    }
   }
 }

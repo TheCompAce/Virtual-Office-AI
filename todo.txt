@@ -2,5 +2,10 @@ Add Error checking to all OpenAI calls.
 Add " <--" pointers to the Generate when there is now flows/bots.
 Add a options for the startup script run.bat/run.sh/etc.
 
-Update Git
+Done:
+===============================
+- 
+  
+
+Update Git Description:
 ===============================
