@@ -201,7 +201,19 @@ def test_task_source(company_profile):
                         # Step 2: Send the questions and answers to OpenAI"
                         openai_response = send_message(conversation, config, selected_model)  # Modify this line to match your OpenAI call
 
-                        print(openai_response)
+                        try:
+                            test_result = json.loads(openai_response)
+                            if (test_result["result"]["status"]):
+                                print(f"The code for {chosen_task['name']} passed.")
+
+
+
+                            else:
+                                print(f"The code for {chosen_task['name']} failed.")
+                            print(test_result["result"]["message"])
+                        except:
+                            print(openai_response)
+                            print(f"Error Reading Test Response.")
                     except:
                         print(f"Error calling OpenAI {conversation}.")
                 except:
